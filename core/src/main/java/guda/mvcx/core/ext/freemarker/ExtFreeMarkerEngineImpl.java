@@ -6,13 +6,11 @@ import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModelException;
 import guda.mvcx.core.util.JsonConfigUtil;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.templ.TemplateEngine;
@@ -65,14 +63,14 @@ public class ExtFreeMarkerEngineImpl implements TemplateEngine {
         }
         JsonObject tools = jsonConfig.getJsonObject(JsonConfigUtil.freemarkerToolKey);
 
-        if(tools!=null){
+        if (tools != null) {
             BeansWrapperBuilder builder = new BeansWrapperBuilder(Configuration.VERSION_2_3_21);
             builder.setUseModelCache(true);
             builder.setExposeFields(true);
             BeansWrapper beansWrapper = builder.build();
-            tools.forEach(tool->{
+            tools.forEach(tool -> {
                 TemplateHashModel templateHashModel = useStaticPackage(beansWrapper, String.valueOf(tool.getValue()));
-                if(templateHashModel!=null){
+                if (templateHashModel != null) {
                     config.setSharedVariable(tool.getKey(), templateHashModel);
                 }
 
@@ -80,8 +78,6 @@ public class ExtFreeMarkerEngineImpl implements TemplateEngine {
 
 
         }
-
-
 
 
     }
@@ -111,5 +107,15 @@ public class ExtFreeMarkerEngineImpl implements TemplateEngine {
         } catch (Exception ex) {
             handler.handle(Future.failedFuture(ex));
         }
+    }
+
+    @Override
+    public void render(RoutingContext context, String templateDirectory, String templateFileName, Handler<AsyncResult<Buffer>> handler) {
+        ;
+    }
+
+    @Override
+    public boolean isCachingEnabled() {
+        return false;
     }
 }

@@ -10,8 +10,7 @@ import guda.mvcx.core.util.JsonConfigUtil;
 import guda.mvcx.core.util.PatternUtil;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -21,12 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by well on 2017/3/27.
- */
+@Slf4j
 public class AppContextImpl implements AppContext {
-
-    private Logger log= LoggerFactory.getLogger(AppContextImpl.class);
 
     private static final Pattern RE_OPERATORS_NO_STAR = Pattern.compile("([\\(\\)\\$\\+\\.])");
 
@@ -35,7 +30,7 @@ public class AppContextImpl implements AppContext {
 
     private AppBeanFactory appBeanFactory;
 
-    private  static JsonObject contextConfig;
+    private static JsonObject contextConfig;
 
     private List<RouteAction> allRouteActionList = new ArrayList<>();
 
@@ -87,7 +82,7 @@ public class AppContextImpl implements AppContext {
     }
 
     public static String v() {
-        if(contextConfig==null){
+        if (contextConfig == null) {
             return null;
         }
         return contextConfig.getString(JsonConfigUtil.assetsVersionKey);
@@ -111,9 +106,9 @@ public class AppContextImpl implements AppContext {
                     String path = normalPath(actionAnnotation, methodAnno);
                     ActionInvokeHandler actionInvokeHandler = new ActionInvokeHandler(instance, method);
                     RouteAction routeAction = new RouteAction();
-                    if(path.indexOf(":")>-1){
-                        routeAction=createWithPatternRegex(path);
-                    }else{
+                    if (path.indexOf(":") > -1) {
+                        routeAction = createWithPatternRegex(path);
+                    } else {
                         routeAction.setRequestUri(path);
                     }
                     routeAction.setActionInvokeHandler(actionInvokeHandler);
@@ -124,7 +119,7 @@ public class AppContextImpl implements AppContext {
                     if (PatternUtil.isPattern(path)) {
                         routeAction.setPattern(Pattern.compile(path));
                         patternRouteActionList.add(routeAction);
-                        if(log.isInfoEnabled()){
+                        if (log.isInfoEnabled()) {
                             log.info("register route:uri[" + path + "]to action[" + routeAction.getActionInvokeHandler().getTargetAction().getClass() + "."
                                     + routeAction.getActionInvokeHandler().getTargetMethod().getName() + "]");
                         }
@@ -155,7 +150,7 @@ public class AppContextImpl implements AppContext {
                             fullMatchActionMap.put(routeRequest, routeAction);
 
 
-                            if(log.isInfoEnabled()){
+                            if (log.isInfoEnabled()) {
                                 log.info("register route:uri[" + path + "]to action[" + routeAction.getActionInvokeHandler().getTargetAction().getClass() + "."
                                         + routeAction.getActionInvokeHandler().getTargetMethod().getName() + "]");
                             }
@@ -164,7 +159,7 @@ public class AppContextImpl implements AppContext {
                             RouteRequest routeRequest = new RouteRequest(path, methodAnno.method());
                             fullMatchActionMap.put(routeRequest, routeAction);
 
-                            if(log.isInfoEnabled()){
+                            if (log.isInfoEnabled()) {
                                 log.info("register route:uri[" + path + "]method:[" + methodAnno.method() + "]to action[" + routeAction.getActionInvokeHandler().getTargetAction().getClass() + "."
                                         + routeAction.getActionInvokeHandler().getTargetMethod().getName() + "]");
                             }
@@ -212,10 +207,10 @@ public class AppContextImpl implements AppContext {
     }
 
 
-    private  RouteAction createWithPatternRegex(String path) {
-        RouteAction routeAction =new RouteAction();
+    private RouteAction createWithPatternRegex(String path) {
+        RouteAction routeAction = new RouteAction();
         path = RE_OPERATORS_NO_STAR.matcher(path).replaceAll("\\\\$1");
-        if(path.charAt(path.length() - 1) == 42) {
+        if (path.charAt(path.length() - 1) == 42) {
             path = path.substring(0, path.length() - 1) + ".*";
         }
 
@@ -223,10 +218,10 @@ public class AppContextImpl implements AppContext {
         StringBuffer sb = new StringBuffer();
         List<String> pathParamName = new ArrayList();
 
-        for(int index = 0; m.find(); ++index) {
+        for (int index = 0; m.find(); ++index) {
             String param = "p" + index;
             String group = m.group().substring(1);
-            if(pathParamName.contains(group)) {
+            if (pathParamName.contains(group)) {
                 throw new IllegalArgumentException("Cannot use identifier " + group + " more than once in pattern string");
             }
 

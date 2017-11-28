@@ -8,24 +8,18 @@ import io.vertx.core.json.JsonObject;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by well on 2017/3/27.
- */
 public interface AppContext {
 
+    AppBeanFactory getAppBeanFactory();
 
-    public AppBeanFactory getAppBeanFactory() ;
+    Map<RouteRequest, RouteAction> getFullMatchActionMap();
 
-    public Map<RouteRequest, RouteAction> getFullMatchActionMap();
+    List<RouteAction> getPatternRouteActionList();
 
-    public List<RouteAction> getPatternRouteActionList() ;
-
-    public List<RouteAction> getAllRouteActionList() ;
+    List<RouteAction> getAllRouteActionList();
 
 
-    public static AppContext create(JsonObject config){
+    static AppContext create(JsonObject config) {
         return new AppContextImpl(config);
     }
-
-
 }

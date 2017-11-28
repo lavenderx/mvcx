@@ -2,40 +2,36 @@ package guda.mvcx.demo;
 
 import guda.mvcx.core.AutoVerticle;
 import guda.mvcx.core.eventbus.context.AppContext;
-import guda.mvcx.core.eventbus.context.AppContextImpl;
-import guda.mvcx.core.factory.GuiceBeanFactory;
 import guda.mvcx.core.util.JsonConfigUtil;
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.Args;
 import io.vertx.core.impl.VertxFactoryImpl;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.spi.VertxFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
-/**
- * Created by well on 2017/3/24.
- */
-public class ServerStart {
+@Slf4j
+public class ServerStart extends AbstractVerticle {
 
-    public static void main(String[] sargs){
-
-        Args args = new Args(sargs);
+    @Override
+    public void start() throws Exception {
+        Args args = new Args(new String[]{});
         String confArg = args.map.get("-conf");
-        if(confArg==null){
-            confArg="dev";
+        if (confArg == null) {
+            confArg = "dev";
         }
 
         System.out.println("server start use conf:" + confArg);
 
-        JsonObject config= JsonConfigUtil.getConfig(ServerStart.class).getJsonObject(confArg);
+        JsonObject config = JsonConfigUtil.getConfig(ServerStart.class).getJsonObject(confArg);
         JsonObject sys = config.getJsonObject("sys");
-        sys.forEach(entry->{
-            System.getProperties().put(entry.getKey(),entry.getValue());
+        sys.forEach(entry -> {
+            System.getProperties().put(entry.getKey(), entry.getValue());
         });
 
-        AppContext appContext=AppContext.create(config);
+        AppContext appContext = AppContext.create(config);
 
         VertxFactory factory = new VertxFactoryImpl();
         final Vertx vertx = factory.vertx();
@@ -43,8 +39,8 @@ public class ServerStart {
         final DeploymentOptions deploymentOptions = readOpts();
         deploymentOptions.setConfig(config);
 
-        AutoVerticle autoVerticle=new AutoVerticle(appContext);
-        vertx.deployVerticle(autoVerticle,deploymentOptions,res -> {
+        AutoVerticle autoVerticle = new AutoVerticle(appContext);
+        vertx.deployVerticle(autoVerticle, deploymentOptions, res -> {
             if (res.succeeded()) {
                 System.out.println("Deployment id is: " + res.result());
             } else {
@@ -52,16 +48,14 @@ public class ServerStart {
                 res.cause().printStackTrace();
             }
         });
-
     }
 
-    public static DeploymentOptions readOpts(){
+    public static DeploymentOptions readOpts() {
         final DeploymentOptions options = new DeploymentOptions();
         //options.setHa(false);
         options.setInstances(1);
         //options.setWorker(false);
         //options.setMultiThreaded(false);
         return options;
-
     }
 }

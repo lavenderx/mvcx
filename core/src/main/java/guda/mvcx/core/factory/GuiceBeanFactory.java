@@ -1,6 +1,10 @@
 package guda.mvcx.core.factory;
 
-import com.google.inject.*;
+import com.google.inject.Binder;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.google.inject.Stage;
 import guda.mvcx.core.annotation.action.Action;
 import guda.mvcx.core.annotation.biz.Biz;
 import io.vertx.core.json.JsonObject;
@@ -16,14 +20,13 @@ import java.util.Set;
 /**
  * Created by well on 2017/3/20.
  */
-public class GuiceBeanFactory implements AppBeanFactory{
+public class GuiceBeanFactory implements AppBeanFactory {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     private JsonObject config;
     private Injector injector;
     private List<Class> actionClassList = new ArrayList<>();
-
 
 
     public GuiceBeanFactory(JsonObject jsonObject) {
@@ -126,8 +129,6 @@ public class GuiceBeanFactory implements AppBeanFactory{
     }
 
 
-
-
     public Injector getInjector() {
         return injector;
     }
@@ -135,12 +136,11 @@ public class GuiceBeanFactory implements AppBeanFactory{
 
     @Override
     public <T> T getBean(Class<T> requireType) {
-        if(injector==null){
+        if (injector == null) {
             return null;
         }
         return injector.getInstance(requireType);
     }
-
 
 
     @Override
