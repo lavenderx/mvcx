@@ -7,30 +7,26 @@ import io.quasar.core.helper.PageQuery;
 import io.quasar.demo.biz.BlogBiz;
 import io.quasar.demo.dao.BlogDAO;
 import io.quasar.demo.dao.model.BlogDO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-/**
- * Created by well on 2017/3/24.
- */
+@Slf4j
 @Singleton
-public class BlogBizImpl implements BlogBiz{
+public class BlogBizImpl implements BlogBiz {
 
-    private final  Logger logger = LoggerFactory.getLogger(getClass());
     @Inject
     private BlogDAO blogDAO;
 
     @Override
     public BizResult detail(long id) {
         BizResult bizResult = new BizResult();
-        try{
+        try {
             BlogDO blogDO = blogDAO.selectById(id);
             bizResult.data.put("blogDO", blogDO);
             bizResult.success = true;
-        }catch(Exception e){
-            logger.error("query blog error",e);
+        } catch (Exception e) {
+            log.error("query blog error", e);
         }
         return bizResult;
     }
@@ -46,7 +42,7 @@ public class BlogBizImpl implements BlogBiz{
             bizResult.data.put("query", pageQuery);
             bizResult.success = true;
         } catch (Exception e) {
-            logger.error("view blog list error", e);
+            log.error("view blog list error", e);
         }
         return bizResult;
     }
@@ -58,7 +54,7 @@ public class BlogBizImpl implements BlogBiz{
             blogDAO.delById(id);
             bizResult.success = true;
         } catch (Exception e) {
-            logger.error("delete blog error", e);
+            log.error("delete blog error", e);
         }
         return bizResult;
     }
@@ -71,7 +67,7 @@ public class BlogBizImpl implements BlogBiz{
             bizResult.data.put("id", id);
             bizResult.success = true;
         } catch (Exception e) {
-            logger.error("create blog error", e);
+            log.error("create blog error", e);
         }
         return bizResult;
     }
@@ -83,7 +79,7 @@ public class BlogBizImpl implements BlogBiz{
             blogDAO.updateByIdSelective(blogDO);
             bizResult.success = true;
         } catch (Exception e) {
-            logger.error("update blog error", e);
+            log.error("update blog error", e);
         }
         return bizResult;
     }

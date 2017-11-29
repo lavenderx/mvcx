@@ -4,19 +4,24 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.Scopes;
+import com.google.inject.Singleton;
 import com.google.inject.Stage;
 import io.quasar.core.annotation.action.Action;
 import io.quasar.core.annotation.biz.Biz;
+import io.quasar.core.ext.HikariDataSourceProvider;
 import io.vertx.core.json.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.guice.XMLMyBatisModule;
 import org.reflections.Reflections;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Slf4j
+@Singleton
 public class GuiceBeanFactory implements AppBeanFactory {
 
     private final List<Class> actionClassList = new ArrayList<>();
@@ -60,9 +65,9 @@ public class GuiceBeanFactory implements AppBeanFactory {
         return new XMLMyBatisModule() {
             @Override
             protected void initialize() {
+//                bind(DataSource.class).toProvider(HikariDataSourceProvider.class).in(Scopes.SINGLETON);
                 setEnvironmentId(dbConfig.getString("environment.id"));
             }
-
         };
     }
 

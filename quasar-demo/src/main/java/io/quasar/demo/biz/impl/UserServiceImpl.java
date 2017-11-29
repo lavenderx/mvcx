@@ -6,16 +6,12 @@ import io.quasar.demo.biz.UserService;
 import io.quasar.demo.dao.UserDAO;
 import io.quasar.demo.dao.model.UserDO;
 
-
-/**
- * Created by well on 2017/3/20.
- */
 @Singleton
 public class UserServiceImpl implements UserService {
 
-
     @Inject
     private UserDAO userDAO;
+
     @Override
     public UserDO index() {
         return userDAO.getUser("admin");

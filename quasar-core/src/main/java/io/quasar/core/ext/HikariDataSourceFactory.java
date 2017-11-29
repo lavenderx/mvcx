@@ -10,9 +10,9 @@ import org.apache.ibatis.datasource.unpooled.UnpooledDataSourceFactory;
  *
  * @see HikariCPDataSourceProvider
  */
-public class HikariCPDataSourceFactory extends UnpooledDataSourceFactory {
+public class HikariDataSourceFactory extends UnpooledDataSourceFactory {
 
-    public HikariCPDataSourceFactory() {
+    public HikariDataSourceFactory() {
         final HikariConfig config = new HikariConfig();
         config.setDriverClassName("org.postgresql.Driver");
         config.setJdbcUrl("jdbc:postgresql://127.0.0.1:5432/test");
