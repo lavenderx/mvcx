@@ -23,9 +23,9 @@ demo----演示工程代码
         sql ----数据库初始化等脚本文件
  ---src
     --main
-        guda.mvcx.demo.action ----负责web请求action
-        guda.mvcx.demo.biz ----负责业务逻辑处理
-        guda.mvcx.demo.dao ----负责数据库访问
+        io.quasar.demo.action ----负责web请求action
+        io.quasar.demo.biz ----负责业务逻辑处理
+        io.quasar.demo.dao ----负责数据库访问
     --resources
         auth.properties页面权限配置文件
         mapper  ----- mybatis配置文件

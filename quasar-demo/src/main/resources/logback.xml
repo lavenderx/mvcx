@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Doc: https://logback.qos.ch/manual/configuration.html
+         https://logback.qos.ch/manual/layouts.html#coloring
+-->
+
+<configuration>
+    <property name="APP_NAME" value="quesar"/>
+    <contextName>${APP_NAME}</contextName>
+    <conversionRule conversionWord="ip" converterClass="io.quasar.core.logging.IpConverter"/>
+    <conversionRule conversionWord="pid" converterClass="io.quasar.core.logging.PidNumberConverter"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <pattern><![CDATA[
+                [%green(%ip)] %date{yyyy-MM-dd HH:mm:ss.SSS} %magenta(%pid) [%thread] %highlight(%-5level) %cyan(%logger{32}) - %msg%n]]>
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNCSTDOUT" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT"/>
+    </appender>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="ASYNCSTDOUT"/>
+    </root>
+</configuration>

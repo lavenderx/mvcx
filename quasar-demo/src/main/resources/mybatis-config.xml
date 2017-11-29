@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- http://blog.csdn.net/u014593633/article/details/51888674 -->
+    <!--<properties resource="jdbc.properties" />-->
+
+    <settings>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="defaultExecutorType" value="REUSE"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="io.quasar.demo.dao.model.BlogDO" alias="blogDO"></typeAlias>
+        <typeAlias type="io.quasar.demo.dao.model.UserDO" alias="userDO"></typeAlias>
+    </typeAliases>
+
+
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="io.quasar.core.ext.HikariCPDataSourceFactory">
+                <!-- https://jdbc.postgresql.org/documentation/80/connect.html -->
+                <property name="driverClassName" value="org.postgresql.Driver"/>
+                <property name="jdbcUrl" value="jdbc:postgresql://127.0.0.1:5432/test"/>
+                <property name="username" value="postgres"/>
+                <property name="password" value="12345678"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <mappers>
+        <mapper resource="mapper/userDAO.xml"/>
+        <mapper resource="mapper/blogDAO.xml"/>
+    </mappers>
+
+</configuration>

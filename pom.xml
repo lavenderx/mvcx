@@ -3,22 +3,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>guda</groupId>
-    <artifactId>mvcx</artifactId>
+    <groupId>io.quasar</groupId>
+    <artifactId>quasar-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>mvcx</name>
 
     <modules>
-        <module>core</module>
-        <module>demo</module>
+        <module>quasar-core</module>
+        <module>quasar-demo</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vertx.version>3.4.2</vertx.version>
+        <mybatis.version>3.4.5</mybatis.version>
         <main.class>io.vertx.core.Launcher</main.class>
-        <main.verticle>guda.mvcx.demo.ServerStart</main.verticle>
+        <main.verticle>io.quasar.demo.ServerStart</main.verticle>
     </properties>
 
     <repositories>
@@ -63,6 +63,11 @@
                 <version>${vertx.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>23.0</version>
+            </dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>1.7.25</version>
@@ -86,7 +91,12 @@
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
-                <version>3.4.5</version>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper</artifactId>
+                <version>${mybatis.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.inject</groupId>
@@ -97,11 +107,6 @@
                 <groupId>com.google.inject.extensions</groupId>
                 <artifactId>guice-multibindings</artifactId>
                 <version>4.1.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>1.0.31</version>
             </dependency>
             <dependency>
                 <!-- https://tinyzzh.github.io/database/2016/06/04/Why_Use_HikariCP.html -->
